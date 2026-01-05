@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Super Bowl — Top 10 City Cost Preview (Action)</title>
+  <title>Super Bowl — Top 10 City Party Cost (per guest)</title>
 
   <style>
     html, body { height:100%; }
@@ -41,16 +42,18 @@
     --t-city:  clamp(13px, 1.4vw, 15px);
 
     /* compact typography for CMS */
-    --t-big:   clamp(26px, 3.2vw, 38px);
+    --t-hero:  clamp(22px, 3.0vw, 34px);
+    --t-hero-kicker: clamp(12px, 1.4vw, 14px);
     --t-card-title: clamp(13px, 1.5vw, 16px);
     --t-card-value: clamp(14px, 1.7vw, 18px);
   }
 
-  /* ===== OUTER SHELL (smaller for CMS) ===== */
+  /* ===== OUTER SHELL (CMS-safe) =====
+     Key change: keep desktop layout in WordPress by NOT switching to mobile until narrower. */
   section.action-sb{
-    height: min(760px, 100vh);
-    max-height: min(760px, 100vh);
-    max-width: 920px;
+    height: min(740px, 100vh);
+    max-height: min(740px, 100vh);
+    max-width: 980px;
     margin: 0 auto;
     overflow:hidden;
     border: 1px solid rgba(255,255,255,.12);
@@ -104,16 +107,16 @@
     flex: 1 1 auto;
     min-height:0;
     padding: 10px 12px 10px;
-    overflow:auto;
-    -webkit-overflow-scrolling: touch;
+    overflow:hidden; /* keep the page tidy in WP */
   }
 
   .layout{
-    min-height: 100%;
+    height: 100%;
     display:grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 330px 1fr;
     gap: var(--gap);
     align-items:stretch;
+    min-height:0;
   }
 
   /* LEFT LIST */
@@ -126,24 +129,21 @@
     padding-right: 6px;
   }
 
-  /* GREEN scrollbars (rail + wrap) */
+  /* GREEN scrollbars (rail + board) */
   .rail::-webkit-scrollbar,
-  .board-inner::-webkit-scrollbar,
-  .wrap::-webkit-scrollbar{ width: 10px; height: 10px; }
+  .board-inner::-webkit-scrollbar{ width: 10px; height: 10px; }
   .rail::-webkit-scrollbar-track,
-  .board-inner::-webkit-scrollbar-track,
-  .wrap::-webkit-scrollbar-track{
+  .board-inner::-webkit-scrollbar-track{
     background: rgba(255,255,255,.08);
     border-radius: 999px;
   }
   .rail::-webkit-scrollbar-thumb,
-  .board-inner::-webkit-scrollbar-thumb,
-  .wrap::-webkit-scrollbar-thumb{
+  .board-inner::-webkit-scrollbar-thumb{
     background: linear-gradient(180deg, var(--g4), var(--g5));
     border-radius: 999px;
     border: 2px solid rgba(6,18,37,.65);
   }
-  .rail, .board-inner, .wrap{
+  .rail, .board-inner{
     scrollbar-width: thin;
     scrollbar-color: var(--g4) rgba(255,255,255,.10);
   }
@@ -177,23 +177,14 @@
   .city-btn[aria-pressed="true"]{
     border-color: rgba(52,179,123,.85);
     background:
-      radial-gradient(140% 160% at 20% 0%, rgba(52,179,123,.36) 0%, transparent 58%),
-      linear-gradient(180deg, rgba(27,132,92,.30) 0%, rgba(11,45,31,.20) 100%),
+      radial-gradient(140% 160% at 20% 0%, rgba(52,179,123,.34) 0%, transparent 58%),
+      linear-gradient(180deg, rgba(27,132,92,.28) 0%, rgba(11,45,31,.18) 100%),
       rgba(255,255,255,.10);
     box-shadow: 0 18px 36px rgba(0,0,0,.32);
-  }
-  .city-btn[aria-pressed="true"]::after{
-    content:"";
-    position:absolute; inset:0;
-    pointer-events:none;
-    background: linear-gradient(90deg, rgba(255,255,255,.10), transparent 55%);
-    mix-blend-mode: overlay;
-    opacity:.75;
   }
 
   .city-left{ display:flex;align-items:center;gap:10px;min-width:0; }
 
-  /* Rank medals */
   .rank-medal{
     width: 30px; height: 30px;
     border-radius: 999px;
@@ -311,101 +302,127 @@
     overflow:auto;
   }
 
-  /* TOP SUMMARY */
-  .summary{
-    border-radius: 20px;
+  /* ===== HERO MAIN METRIC (with city image background) ===== */
+  .hero{
+    border-radius: 22px;
     border: 1px solid var(--border);
-    background: linear-gradient(180deg, #ffffff, #f6fffb);
+    overflow:hidden;
+    position:relative;
+    height: 180px; /* slimmer than before */
+    background: linear-gradient(180deg, var(--g2), var(--g4));
+    box-shadow: 0 14px 30px rgba(11,39,77,.12);
+  }
+  .hero img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    transform: scale(1.02);
+    filter: saturate(1.02) contrast(1.02);
+  }
+  .hero .overlay{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(90deg, rgba(6,18,37,.82) 0%, rgba(6,18,37,.46) 55%, rgba(6,18,37,.18) 80%, rgba(6,18,37,.10) 100%),
+      radial-gradient(120% 140% at 80% 10%, rgba(255,255,255,.12) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .hero-content{
+    position:absolute; inset:0;
     padding: 14px 14px 12px;
     display:flex;
     align-items:flex-start;
     justify-content:space-between;
     gap: 12px;
-    box-shadow: 0 12px 24px rgba(11,39,77,.10);
+    z-index:2;
   }
-  .summary-left{ min-width:0; }
-  .summary-kicker{
-    font-size: 12px;
+
+  .hero-left{ min-width:0; }
+  .hero-kicker{
+    font-size: var(--t-hero-kicker);
     font-weight: 1000;
-    color: #2a3850;
+    color: rgba(255,255,255,.92);
     letter-spacing:.2px;
     line-height: 1.1;
+    text-shadow: 0 10px 24px rgba(0,0,0,.35);
   }
-  .summary-city{
+  .hero-city{
     margin-top: 8px;
     font-size: clamp(16px, 2.1vw, 22px);
     font-weight: 1100;
-    color: var(--ink);
-    line-height: 1.05;
+    color: #fff;
+    line-height: 1.1;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    text-shadow: 0 10px 24px rgba(0,0,0,.40);
   }
-  .summary-big{
+  .hero-value{
     margin-top: 10px;
-    font-size: var(--t-big);
-    font-weight: 1150;
-    color: var(--ink);
+    font-size: var(--t-hero);
+    font-weight: 1200;
+    color: #fff;
     line-height: 1;
     font-variant-numeric: tabular-nums;
+    text-shadow: 0 10px 24px rgba(0,0,0,.45);
   }
-  .summary-right{
+
+  .hero-icon{
     flex:0 0 auto;
     width: 64px; height: 64px;
     border-radius: 20px;
-    border: 1px solid #d9f3e5;
-    background:
-      radial-gradient(120% 140% at 30% 20%, rgba(52,179,123,.22) 0%, transparent 65%),
-      linear-gradient(180deg, #ffffff, #f0fffa);
+    border: 1px solid rgba(255,255,255,.24);
+    background: rgba(255,255,255,.10);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display:grid;
     place-items:center;
-    box-shadow: 0 12px 24px rgba(11,39,77,.10);
+    box-shadow: 0 14px 30px rgba(0,0,0,.18);
   }
-  .summary-right svg{
-    width: 28px; height: 28px;
-    stroke: var(--g3);
+  .hero-icon svg{
+    width: 30px; height: 30px;
+    stroke: rgba(255,255,255,.92);
     fill:none;
     stroke-width:2;
     stroke-linecap:round;
     stroke-linejoin:round;
   }
 
-  /* METRICS GRID (RIGHT) */
+  /* ===== METRICS: ONE PER ROW ===== */
   .metrics{
     margin-top: var(--gap);
-    display:grid;
-    grid-template-columns: 1fr 1fr;
+    display:flex;
+    flex-direction:column;
     gap: var(--gap);
   }
 
-  .mcard{
-    border-radius: 22px;
+  .mrow{
+    border-radius: 20px;
     background: linear-gradient(180deg, #ffffff, #f7fffb);
     border: 1px solid var(--border);
-    padding: 16px;
-    min-height: 126px;
-    display:grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-    gap: 10px 14px;
-    align-items:start;
+    padding: 14px 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+    min-height: 72px;
     transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
-  .mcard:hover{
-    transform: translateY(-2px);
+  .mrow:hover{
+    transform: translateY(-1px);
     border-color: rgba(52,179,123,.55);
-    box-shadow: 0 18px 38px rgba(11,39,77,.14);
+    box-shadow: 0 14px 30px rgba(11,39,77,.12);
   }
 
+  .mrow-left{ min-width:0; }
   .mTitle{
     margin:0;
     font-size: var(--t-card-title);
     font-weight: 1100;
     color: var(--ink);
-    line-height:1.05;
+    line-height:1.1;
   }
   .mValue{
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: var(--t-card-value);
     color: var(--ink);
     font-weight: 1100;
@@ -422,7 +439,7 @@
     display:grid;
     place-items:center;
     box-shadow: 0 12px 24px rgba(11,39,77,.10);
-    align-self:start;
+    flex: 0 0 auto;
   }
   .mIcon svg{
     width:26px;height:26px;
@@ -433,7 +450,7 @@
     stroke-linejoin:round;
   }
 
-  /* FOOTER (optional, compact) */
+  /* FOOTER */
   .foot{
     padding: 9px 12px;
     border-top: 1px solid rgba(255,255,255,.14);
@@ -459,9 +476,10 @@
   }
   .copy-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.18); }
 
-  /* RESPONSIVE */
-  @media (max-width: 900px){
-    section.action-sb{ height: min(820px, 100vh); max-width: 720px; }
+  /* ===== RESPONSIVE =====
+     WP classic editor often renders embeds in a narrow column.
+     We keep desktop layout until truly small. */
+  @media (max-width: 720px){
     .layout{ grid-template-columns: 1fr; }
     .rail{
       flex-direction:row;
@@ -471,17 +489,11 @@
       height: auto;
     }
     .city-btn{ min-width: 320px; scroll-snap-align: start; }
-    .board{ height: auto; }
-  }
-
-  @media (max-width: 560px){
-    section.action-sb{ max-width: 100%; border-radius: 0; }
-    .metrics{ grid-template-columns: 1fr; }
-    .summary-right{ width: 58px; height: 58px; border-radius: 18px; }
+    .hero{ height: 170px; }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .mcard, .city-btn { transition:none !important; }
+    .mrow, .city-btn { transition:none !important; }
   }
 </style>
 
@@ -500,24 +512,30 @@
 
     <main class="board" aria-live="polite">
       <div class="board-inner">
-        <section class="summary" aria-label="Selected city summary">
-          <div class="summary-left">
-            <div class="summary-kicker">Selected City</div>
-            <div class="summary-city" id="heroCity">Green Bay, WI</div>
-            <div class="summary-big" id="heroTotal">$26.24</div>
-          </div>
 
-          <div class="summary-right" aria-hidden="true" title="Total cost per guest">
-            <!-- money icon -->
-            <svg viewBox="0 0 24 24">
-              <path d="M12 3v18"/>
-              <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
-              <path d="M6 12h0"/>
-            </svg>
+        <!-- MAIN HERO METRIC -->
+        <section class="hero" aria-label="Main metric">
+          <img id="heroImg" alt="" loading="eager" decoding="async">
+          <div class="overlay" aria-hidden="true"></div>
+
+          <div class="hero-content">
+            <div class="hero-left">
+              <div class="hero-kicker">Super Bowl Party Cost per Guest</div>
+              <div class="hero-city" id="heroCity">Green Bay, WI</div>
+              <div class="hero-value" id="heroTotal">$26.24</div>
+            </div>
+
+            <div class="hero-icon" aria-hidden="true" title="Cost">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3v18"/>
+                <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
+              </svg>
+            </div>
           </div>
         </section>
 
-        <section class="metrics" id="metrics" aria-label="Cost metrics"></section>
+        <!-- SLIM METRICS (ONE PER ROW) -->
+        <section class="metrics" id="metrics" aria-label="Cost breakdown"></section>
       </div>
     </main>
   </div>
@@ -536,21 +554,31 @@
     </svg>
   `;
 
+  /* You can replace heroImg URLs with your own hosted images later. */
   const CITY_ROWS = [
-    { rank: 1,  city: "Green Bay",        state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19 },
-    { rank: 2,  city: "Wichita",          state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15 },
-    { rank: 3,  city: "Milwaukee",        state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19 },
-    { rank: 4,  city: "Omaha",            state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14 },
-    { rank: 5,  city: "Virginia Beach",   state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17 },
-    { rank: 6,  city: "Detroit",          state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21 },
-    { rank: 7,  city: "Louisville",       state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14 },
-    { rank: 8,  city: "Cleveland",        state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18 },
-    { rank: 9,  city: "Indianapolis",     state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17 },
-    { rank: 10, city: "Cincinnati",       state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18 },
+    { rank: 1,  city: "Green Bay",        state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Green%20Bay%20city%20skyline.jpg" },
+    { rank: 2,  city: "Wichita",          state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Wichita%20Kansas%20skyline.jpg" },
+    { rank: 3,  city: "Milwaukee",        state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Milwaukee%20skyline.jpg" },
+    { rank: 4,  city: "Omaha",            state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Omaha%20skyline.jpg" },
+    { rank: 5,  city: "Virginia Beach",   state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Virginia%20Beach%20oceanfront.jpg" },
+    { rank: 6,  city: "Detroit",          state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Detroit%20Skyline.jpg" },
+    { rank: 7,  city: "Louisville",       state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Louisville%20skyline.jpg" },
+    { rank: 8,  city: "Cleveland",        state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Cleveland%20skyline.jpg" },
+    { rank: 9,  city: "Indianapolis",     state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Indianapolis%20skyline.jpg" },
+    { rank: 10, city: "Cincinnati",       state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18,
+      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Cincinnati%20skyline.jpg" },
   ];
 
   const METRICS = [
-    { key:"total", title:"Super Bowl Party Cost per Guest", icon: moneyIcon() },
     { key:"food",  title:"Food Cost per Guest",             icon: foodIcon()  },
     { key:"drink", title:"Drink Cost per Guest",            icon: drinkIcon() },
     { key:"other", title:"Other Grocery Costs per Guest",   icon: cartIcon()  },
@@ -560,6 +588,7 @@
   const railEl    = document.getElementById("rail");
   const heroCity  = document.getElementById("heroCity");
   const heroTotal = document.getElementById("heroTotal");
+  const heroImg   = document.getElementById("heroImg");
   const metricsEl = document.getElementById("metrics");
 
   function medalClass(rank){
@@ -608,18 +637,20 @@
     heroCity.textContent  = `${d.city}, ${d.state}`;
     heroTotal.textContent = money(d.total);
 
-    metricsEl.innerHTML = METRICS.map(m => {
-      const val = d[m.key];
-      return `
-        <div class="mcard" role="group" aria-label="${escapeHtml(m.title)}">
-          <div>
-            <h4 class="mTitle">${escapeHtml(m.title)}</h4>
-            <div class="mValue">${money(val)}</div>
-          </div>
-          <div class="mIcon" aria-hidden="true" title="${escapeHtml(m.title)}">${m.icon}</div>
+    // hero image
+    heroImg.src = d.heroImg || "";
+    heroImg.alt = d.heroImg ? `${d.city} background` : "";
+    heroImg.onerror = () => heroImg.removeAttribute("src");
+
+    metricsEl.innerHTML = METRICS.map(m => `
+      <div class="mrow" role="group" aria-label="${escapeHtml(m.title)}">
+        <div class="mrow-left">
+          <h4 class="mTitle">${escapeHtml(m.title)}</h4>
+          <div class="mValue">${money(d[m.key])}</div>
         </div>
-      `;
-    }).join("");
+        <div class="mIcon" aria-hidden="true" title="${escapeHtml(m.title)}">${m.icon}</div>
+      </div>
+    `).join("");
   }
 
   function wireRail(){
@@ -647,7 +678,7 @@
   title="Super Bowl — Top 10 City Party Cost (per guest)"
   src="YOUR_EMBED_URL_HERE"
   width="100%"
-  height="760"
+  height="740"
   scrolling="no"
   style="border:0; overflow:hidden; display:block; width:100%;"
   loading="lazy"></iframe>`;
@@ -668,12 +699,6 @@
   }
 
   /* ===== icons ===== */
-  function moneyIcon(){
-    return `<svg viewBox="0 0 24 24">
-      <path d="M12 3v18"/>
-      <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
-    </svg>`;
-  }
   function foodIcon(){
     return `<svg viewBox="0 0 24 24">
       <path d="M4 3v7a3 3 0 0 0 6 0V3"/>
