@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,7 +20,6 @@
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   }
 
-  /* ===== BRAND (GREEN) ===== */
   .action-sb{
     --g1:#0B2D1F;
     --g2:#0E4A33;
@@ -29,27 +27,26 @@
     --g4:#1B845C;
     --g5:#34B37B;
 
-    --ink:#0B1220;
-    --muted:#556277;
+    --tabOn:#00C358;
+    --tabOff:#D9F1E8;
 
+    --ink:#0B1220;
     --border:#d7e2f3;
     --shadow: 0 16px 42px rgba(0,0,0,.30);
     --shadow2: 0 10px 26px rgba(0,0,0,.22);
 
-    --gap: 12px;
-    --inner-pad: 14px;
+    --gap: 10px;
+    --inner-pad: 12px;
 
     --t-title: clamp(16px, 2.0vw, 22px);
     --t-city:  clamp(13px, 1.4vw, 15px);
 
-    /* compact typography for CMS */
     --t-hero:  clamp(22px, 3.0vw, 34px);
     --t-hero-kicker: clamp(12px, 1.4vw, 14px);
     --t-card-title: clamp(13px, 1.5vw, 16px);
     --t-card-value: clamp(14px, 1.7vw, 18px);
   }
 
-  /* ===== OUTER SHELL (CMS-safe) ===== */
   section.action-sb{
     height: min(740px, 100vh);
     max-height: min(740px, 100vh);
@@ -66,7 +63,13 @@
     flex-direction:column;
   }
 
-  /* ===== TABS (FULL-WIDTH, NO PADDING, NO RADIUS) ===== */
+  /* branded green tint helper (#00C358-ish) */
+  .tint-green{
+    filter: brightness(0) saturate(100%) invert(53%) sepia(94%) saturate(1178%) hue-rotate(89deg) brightness(98%) contrast(103%);
+  }
+  .tint-white{ filter: brightness(0) invert(1); }
+
+  /* ===== TABS (FULL-WIDTH, FLUSH) ===== */
   .tabs{
     flex: 0 0 auto;
     display:grid;
@@ -75,7 +78,6 @@
     margin:0;
     padding:0;
     border-bottom: 1px solid rgba(255,255,255,.14);
-    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   }
   .tab-btn{
     border:0;
@@ -83,39 +85,29 @@
     padding: 12px 10px;
     border-radius: 0;
     cursor:pointer;
-    color:#fff;
     font-weight: 1000;
     letter-spacing:.2px;
     font-size: 13px;
     display:flex;
     align-items:center;
     justify-content:center;
-    gap: 8px;
-    background: rgba(255,255,255,.06);
-    transition: background .15s ease;
+    gap: 10px;
     user-select:none;
+    background: var(--tabOff);
+    color: var(--g1);
+    transition: filter .12s ease;
   }
-  .tab-btn + .tab-btn{
-    border-left: 1px solid rgba(255,255,255,.10);
-  }
+  .tab-btn:hover{ filter: brightness(.98); }
+  .tab-btn + .tab-btn{ border-left: 1px solid rgba(11,45,31,.18); }
   .tab-btn[aria-selected="true"]{
-    background:
-      radial-gradient(120% 180% at 85% 0%, rgba(255,255,255,.14) 0%, transparent 62%),
-      linear-gradient(92deg, var(--g1) 0%, var(--g2) 35%, var(--g3) 62%, var(--g4) 82%, var(--g5) 100%);
+    background: var(--tabOn);
+    color:#fff;
   }
-  .tab-ico{
-    width:18px;height:18px;
-    display:grid;place-items:center;
-    border: 1px solid rgba(255,255,255,.22);
-    background: rgba(255,255,255,.08);
-  }
-  .tab-ico svg{
-    width:12px;height:12px;
-    stroke: rgba(255,255,255,.96);
-    fill:none;
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:round;
+  .tab-ico{ width: 18px; height: 18px; display:inline-block; line-height:0; flex:0 0 auto; }
+  .tab-ico img{ width:100%; height:100%; display:block; }
+  .tab-btn[aria-selected="true"] .tab-ico img{ filter: brightness(0) invert(1); }
+  .tab-btn[aria-selected="false"] .tab-ico img{ /* green on light */
+    filter: brightness(0) saturate(100%) invert(53%) sepia(94%) saturate(1178%) hue-rotate(89deg) brightness(98%) contrast(103%);
   }
 
   /* ===== HEADER ===== */
@@ -128,19 +120,8 @@
       linear-gradient(92deg, var(--g1) 0%, var(--g2) 35%, var(--g3) 62%, var(--g4) 82%, var(--g5) 100%);
     flex: 0 0 auto;
   }
-  .head-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .title{
-    margin:0;
-    font-size: var(--t-title);
-    font-weight: 1000;
-    letter-spacing:.2px;
-    line-height:1.12;
-  }
+  .head-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .title{ margin:0; font-size: var(--t-title); font-weight: 1000; letter-spacing:.2px; line-height:1.12; }
   .brand{
     display:flex;align-items:center;gap:10px;
     padding: 7px 9px;
@@ -148,20 +129,10 @@
     border: 1px solid rgba(255,255,255,.20);
     background: rgba(255,255,255,.10);
   }
-  .brand img{
-    height: 22px; width:auto; display:block;
-    filter: brightness(0) invert(1);
-    opacity:.98;
-  }
+  .brand img{ height: 22px; width:auto; display:block; filter: brightness(0) invert(1); opacity:.98; }
 
   /* ===== BODY ===== */
-  .wrap{
-    flex: 1 1 auto;
-    min-height:0;
-    padding: 10px 12px 10px;
-    overflow:hidden; /* tidy in WP */
-  }
-
+  .wrap{ flex: 1 1 auto; min-height:0; padding: 10px 12px 10px; overflow:hidden; }
   .layout{
     height: 100%;
     display:grid;
@@ -181,7 +152,6 @@
     padding-right: 6px;
   }
 
-  /* GREEN scrollbars (rail + board) */
   .rail::-webkit-scrollbar,
   .board-inner::-webkit-scrollbar{ width: 10px; height: 10px; }
   .rail::-webkit-scrollbar-track,
@@ -279,18 +249,9 @@
     text-overflow:ellipsis;
   }
 
-  .city-score{
-    text-align:right;
-    flex:0 0 auto;
-    min-width: 124px;
-  }
-  .city-score-top{
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap: 6px;
-  }
-  .ball-ico{
+  .city-score{ text-align:right; flex:0 0 auto; min-width: 132px; }
+  .city-score-top{ display:flex; align-items:center; justify-content:flex-end; gap: 6px; }
+  .chip-ico{
     width: 18px; height: 18px;
     border-radius: 9px;
     display:grid;
@@ -299,17 +260,10 @@
     background: rgba(255,255,255,.08);
     box-shadow: 0 10px 18px rgba(0,0,0,.14);
     flex: 0 0 auto;
+    overflow:hidden;
   }
-  .ball-ico svg{
-    width: 12px; height: 12px;
-    stroke: rgba(255,255,255,.96);
-    fill:none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: .98;
-  }
-  .city-score .lbl{ font-size: 11px; opacity:.88; font-weight: 900; }
+  .chip-ico img{ width:12px; height:12px; display:block; }
+  .city-score .lbl{ font-size: 11px; opacity:.90; font-weight: 900; }
   .city-score .num{ font-size: 18px; font-weight: 1000; font-variant-numeric: tabular-nums; }
 
   /* RIGHT BOARD */
@@ -331,20 +285,21 @@
     pointer-events:none;
   }
 
+  /* Desktop: no internal scroll */
   .board-inner{
     position:relative; z-index:1;
     padding: var(--inner-pad);
     height:100%;
-    overflow:auto;
+    overflow:hidden;
   }
 
-  /* ===== HERO MAIN METRIC (with city image background) ===== */
+  /* HERO */
   .hero{
     border-radius: 22px;
     border: 1px solid var(--border);
     overflow:hidden;
     position:relative;
-    height: 180px;
+    height: 150px; /* desktop-safe */
     background: linear-gradient(135deg, var(--g1), var(--g5));
     box-shadow: 0 14px 30px rgba(11,39,77,.12);
   }
@@ -357,7 +312,6 @@
     filter: saturate(1.02) contrast(1.02);
   }
   .hero-photo.is-hidden{ display:none; }
-
   .hero .overlay{
     position:absolute; inset:0;
     background:
@@ -367,25 +321,42 @@
   }
   .hero-content{
     position:absolute; inset:0;
-    padding: 14px 14px 12px;
+    padding: 12px 12px 10px;
     display:flex;
     align-items:flex-start;
-    justify-content:space-between;
-    gap: 12px;
+    justify-content:flex-start; /* right side stays clear */
     z-index:2;
   }
 
   .hero-left{ min-width:0; }
+
+  /* icon before kicker text; remove right-side icon entirely */
   .hero-kicker{
+    display:flex;
+    align-items:center;
+    gap: 8px;
     font-size: var(--t-hero-kicker);
     font-weight: 1000;
-    color: rgba(255,255,255,.92);
+    color: #60D000;
     letter-spacing:.2px;
     line-height: 1.1;
     text-shadow: 0 10px 24px rgba(0,0,0,.35);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
+  .kicker-ico{
+    width: 16px; height: 16px;
+    flex:0 0 auto;
+    display:inline-block;
+    line-height:0;
+  }
+  .kicker-ico img{
+    width:100%; height:100%; display:block;
+  }
+
   .hero-city{
-    margin-top: 8px;
+    margin-top: 7px;
     font-size: clamp(16px, 2.1vw, 22px);
     font-weight: 1100;
     color: #fff;
@@ -396,7 +367,7 @@
     text-shadow: 0 10px 24px rgba(0,0,0,.40);
   }
   .hero-value{
-    margin-top: 10px;
+    margin-top: 8px;
     font-size: var(--t-hero);
     font-weight: 1200;
     color: #fff;
@@ -405,28 +376,7 @@
     text-shadow: 0 10px 24px rgba(0,0,0,.45);
   }
 
-  .hero-icon{
-    flex:0 0 auto;
-    width: 64px; height: 64px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,.24);
-    background: rgba(255,255,255,.10);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    display:grid;
-    place-items:center;
-    box-shadow: 0 14px 30px rgba(0,0,0,.18);
-  }
-  .hero-icon svg{
-    width: 30px; height: 30px;
-    stroke: rgba(255,255,255,.92);
-    fill:none;
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-  }
-
-  /* ===== METRICS: ONE PER ROW ===== */
+  /* METRICS */
   .metrics{
     margin-top: var(--gap);
     display:flex;
@@ -438,12 +388,12 @@
     border-radius: 20px;
     background: linear-gradient(180deg, #ffffff, #f7fffb);
     border: 1px solid var(--border);
-    padding: 14px 14px;
+    padding: 12px 14px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap: 12px;
-    min-height: 72px;
+    min-height: 66px;
     transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
   .mrow:hover{
@@ -453,23 +403,11 @@
   }
 
   .mrow-left{ min-width:0; }
-  .mTitle{
-    margin:0;
-    font-size: var(--t-card-title);
-    font-weight: 1100;
-    color: var(--ink);
-    line-height:1.1;
-  }
-  .mValue{
-    margin-top: 6px;
-    font-size: var(--t-card-value);
-    color: var(--ink);
-    font-weight: 1100;
-    font-variant-numeric: tabular-nums;
-  }
+  .mTitle{ margin:0; font-size: var(--t-card-title); font-weight: 1100; color: var(--ink); line-height:1.1; }
+  .mValue{ margin-top: 6px; font-size: var(--t-card-value); color: var(--ink); font-weight: 1100; font-variant-numeric: tabular-nums; }
 
   .mIcon{
-    width: 52px; height: 52px;
+    width: 50px; height: 50px;
     border-radius: 18px;
     border: 1px solid #d9f3e5;
     background:
@@ -481,7 +419,7 @@
     flex: 0 0 auto;
   }
   .mIcon svg{
-    width:26px;height:26px;
+    width:25px;height:25px;
     stroke: var(--g3);
     fill:none;
     stroke-width:2;
@@ -489,7 +427,6 @@
     stroke-linejoin:round;
   }
 
-  /* FOOTER */
   .foot{
     padding: 9px 12px;
     border-top: 1px solid rgba(255,255,255,.14);
@@ -515,7 +452,6 @@
   }
   .copy-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.18); }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 720px){
     .layout{ grid-template-columns: 1fr; }
     .rail{
@@ -526,6 +462,7 @@
       height: auto;
     }
     .city-btn{ min-width: 320px; scroll-snap-align: start; }
+    .board-inner{ overflow:auto; }
     .hero{ height: 170px; }
   }
 
@@ -534,17 +471,16 @@
   }
 </style>
 
-<!-- FULL-WIDTH TABS (flush to edges) -->
 <nav class="tabs" aria-label="City list toggle">
   <button class="tab-btn" id="tabCheap" type="button" aria-selected="true">
     <span class="tab-ico" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0"/><path d="M6 12c3-4 9-4 12 0"/><path d="M8.5 12h7"/><path d="M12 9.5v5"/></svg>
+      <img alt="" referrerpolicy="no-referrer" src="https://unpkg.com/lucide-static@latest/icons/banknote-arrow-down.svg">
     </span>
     Cheapest Cities
   </button>
   <button class="tab-btn" id="tabExp" type="button" aria-selected="false">
     <span class="tab-ico" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0"/><path d="M6 12c3-4 9-4 12 0"/><path d="M8.5 12h7"/><path d="M12 9.5v5"/></svg>
+      <img alt="" referrerpolicy="no-referrer" src="https://unpkg.com/lucide-static@latest/icons/banknote-arrow-up.svg">
     </span>
     Most Expensive Cities
   </button>
@@ -566,30 +502,26 @@
     <main class="board" aria-live="polite">
       <div class="board-inner">
 
-        <!-- MAIN HERO METRIC -->
         <section class="hero" aria-label="Main metric">
           <img id="heroImg" class="hero-photo" alt="" loading="eager" decoding="async" referrerpolicy="no-referrer">
           <div class="overlay" aria-hidden="true"></div>
 
           <div class="hero-content">
             <div class="hero-left">
-              <div class="hero-kicker">Super Bowl Party Cost per Guest</div>
+              <div class="hero-kicker">
+                <!-- ✅ green icon placed BEFORE the text -->
+                <span class="kicker-ico" aria-hidden="true">
+                  <img class="tint-green" alt="" referrerpolicy="no-referrer"
+                       src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Font_Awesome_5_solid_football-ball.svg">
+                </span>
+                <span>Super Bowl Party Cost per Guest</span>
+              </div>
               <div class="hero-city" id="heroCity">Green Bay, WI</div>
               <div class="hero-value" id="heroTotal">$26.24</div>
-            </div>
-
-            <div class="hero-icon" aria-hidden="true" title="Football">
-              <!-- football icon -->
-              <svg viewBox="0 0 24 24">
-                <path d="M20 12c0 4-4 8-8 8s-8-4-8-8 4-8 8-8 8 4 8 8Z"/>
-                <path d="M8 12h8"/>
-                <path d="M10 10.5l1-1"/><path d="M12 10.5v3"/><path d="M14 10.5l-1-1"/>
-              </svg>
             </div>
           </div>
         </section>
 
-        <!-- SLIM METRICS (ONE PER ROW) -->
         <section class="metrics" id="metrics" aria-label="Cost breakdown"></section>
 
       </div>
@@ -603,46 +535,102 @@
 </footer>
 
 <script>
-  /* Build a reliable, direct image URL from a Wikimedia Commons filename.
-     Using Special:FilePath + ?width=1600 avoids “missing image” issues and forces a renderable image response. */
   function commonsImg(fileName, width = 1600){
     return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(fileName)}?width=${width}`;
   }
+  function unsplashImg(query, w = 1600, h = 900){
+    return `https://source.unsplash.com/${w}x${h}/?${encodeURIComponent(query)}`;
+  }
 
-  const BALL_SVG = `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20 12c0 4-4 8-8 8s-8-4-8-8 4-8 8-8 8 4 8 8Z"/>
-      <path d="M8 12h8"/>
-      <path d="M10 10.5l1-1"/><path d="M12 10.5v3"/><path d="M14 10.5l-1-1"/>
-    </svg>
-  `;
+  // Total per guest icon (used in LEFT cards label chip)
+  const TOTAL_PER_GUEST_ICON_URL =
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Font%20Awesome%205%20solid%20football-ball.svg";
 
-  // ===== DATA (CHEAPEST) =====
   const CHEAP_ROWS = [
-    { rank: 1,  city: "Green Bay",      state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19, imgFile: "Green Bay July 2024 045 (skyline and Fox River).jpg" },
-    { rank: 2,  city: "Wichita",        state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15, imgFile: "Wichita Skyline 2021.jpg" },
-    { rank: 3,  city: "Milwaukee",      state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19, imgFile: "Milwaukee skyline.jpg" },
-    { rank: 4,  city: "Omaha",          state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14, imgFile: "Omaha skyline.jpg" },
-    { rank: 5,  city: "Virginia Beach", state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17, imgFile: "Virginia Beach Oceanfront.jpg" },
-    { rank: 6,  city: "Detroit",        state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21, imgFile: "DetroitSkyline.jpg" },
-    { rank: 7,  city: "Louisville",     state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14, imgFile: "Louisville, Kentucky skyline at night (2021).jpg" },
-    { rank: 8,  city: "Cleveland",      state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18, imgFile: "Cleveland skyline.jpg" },
-    { rank: 9,  city: "Indianapolis",   state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17, imgFile: "Indianapolis skyline (43739288405).jpg" },
-    { rank: 10, city: "Cincinnati",     state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18, imgFile: "Cincinnati night skyline from Covington, January 2019.jpg" },
+    { rank: 1,  city: "Green Bay",      state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19,
+      imgFiles: ["Green Bay July 2024 045 (skyline and Fox River).jpg","Green Bay waterfront.jpg"],
+      unsplash: "Green Bay Wisconsin skyline waterfront"
+    },
+    { rank: 2,  city: "Wichita",        state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15,
+      imgFiles: ["Wichita Skyline 2021.jpg","Wichita, Kansas skyline.jpg"],
+      unsplash: "Wichita Kansas skyline"
+    },
+    { rank: 3,  city: "Milwaukee",      state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19,
+      imgFiles: ["Milwaukee skyline.jpg","Milwaukee Skyline.jpg"],
+      unsplash: "Milwaukee skyline"
+    },
+    { rank: 4,  city: "Omaha",          state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14,
+      imgFiles: ["Omaha skyline.jpg","Omaha, Nebraska skyline.jpg"],
+      unsplash: "Omaha Nebraska skyline"
+    },
+    { rank: 5,  city: "Virginia Beach", state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17,
+      heroImgDirect: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Virginia_Beach_from_Fishing_Pier.jpg",
+      imgFiles: [],
+      unsplash: "Virginia Beach oceanfront boardwalk"
+    },
+    { rank: 6,  city: "Detroit",        state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21,
+      imgFiles: ["DetroitSkyline.jpg","Detroit Skyline.jpg"],
+      unsplash: "Detroit skyline river"
+    },
+    { rank: 7,  city: "Louisville",     state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14,
+      imgFiles: ["Louisville, Kentucky skyline at night (2021).jpg","Louisville skyline.jpg"],
+      unsplash: "Louisville skyline"
+    },
+    { rank: 8,  city: "Cleveland",      state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18,
+      imgFiles: ["Cleveland skyline.jpg","Cleveland skyline (Ohio).jpg"],
+      unsplash: "Cleveland skyline"
+    },
+    { rank: 9,  city: "Indianapolis",   state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17,
+      imgFiles: ["Indianapolis skyline (43739288405).jpg","Indianapolis skyline.jpg"],
+      unsplash: "Indianapolis skyline"
+    },
+    { rank: 10, city: "Cincinnati",     state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18,
+      imgFiles: ["Cincinnati night skyline from Covington, January 2019.jpg","Cincinnati skyline.jpg"],
+      unsplash: "Cincinnati skyline"
+    },
   ];
 
-  // ===== DATA (MOST EXPENSIVE) =====
   const EXP_ROWS = [
-    { rank: 1,  city: "Washington D.C.", state: "DC", total: 36.58, food: 9.45, drink: 8.56, other: 18.34, util: 0.24, imgFile: "Washington DC Panorama.jpg" },
-    { rank: 2,  city: "Miami",           state: "FL", total: 37.64, food: 8.28, drink: 8.52, other: 20.68, util: 0.16, imgFile: "Miami, Florida skyline.jpg" },
-    { rank: 3,  city: "New York City",   state: "NY", total: 37.65, food: 9.93, drink: 8.27, other: 19.18, util: 0.27, imgFile: "Skyline-New-York-City.jpg" },
-    { rank: 4,  city: "San Diego",       state: "CA", total: 38.29, food: 8.26, drink: 8.27, other: 21.44, util: 0.32, imgFile: "San Diego Skyline (8350201324).jpg" },
-    { rank: 5,  city: "Long Beach",      state: "CA", total: 38.60, food: 8.41, drink: 8.44, other: 21.44, util: 0.32, imgFile: "Long-Beach-skyline-at-dusk (21611595655).jpg" },
-    { rank: 6,  city: "San Jose",        state: "CA", total: 38.80, food: 8.15, drink: 8.90, other: 21.44, util: 0.32, imgFile: "San Jose skyline 8382.jpg" },
-    { rank: 7,  city: "Los Angeles",     state: "CA", total: 38.81, food: 8.70, drink: 8.36, other: 21.44, util: 0.32, imgFile: "Los Angeles Skyline 08-2024.jpg" },
-    { rank: 8,  city: "San Francisco",   state: "CA", total: 38.92, food: 8.72, drink: 8.45, other: 21.44, util: 0.32, imgFile: "San Francisco Skyline 2024.jpg" },
-    { rank: 9,  city: "Sacramento",      state: "CA", total: 38.97, food: 9.04, drink: 8.17, other: 21.44, util: 0.32, imgFile: "Sacramento, California skyline.jpg" },
-    { rank: 10, city: "Seattle",         state: "WA", total: 39.15, food: 9.91, drink: 8.39, other: 20.71, util: 0.14, imgFile: "Seattle skyline 2021.jpg" },
+    { rank: 1,  city: "Washington D.C.", state: "DC", total: 36.58, food: 9.45, drink: 8.56, other: 18.34, util: 0.24,
+      imgFiles: ["Washington DC Panorama.jpg","Washington D.C. Skyline.jpg"],
+      unsplash: "Washington DC skyline"
+    },
+    { rank: 2,  city: "Miami",           state: "FL", total: 37.64, food: 8.28, drink: 8.52, other: 20.68, util: 0.16,
+      imgFiles: ["Miami, Florida skyline.jpg","Miami skyline.jpg"],
+      unsplash: "Miami skyline"
+    },
+    { rank: 3,  city: "New York City",   state: "NY", total: 37.65, food: 9.93, drink: 8.27, other: 19.18, util: 0.27,
+      imgFiles: ["Skyline-New-York-City.jpg","Manhattan skyline.jpg"],
+      unsplash: "New York City skyline"
+    },
+    { rank: 4,  city: "San Diego",       state: "CA", total: 38.29, food: 8.26, drink: 8.27, other: 21.44, util: 0.32,
+      imgFiles: ["San Diego Skyline (8350201324).jpg","San Diego skyline.jpg"],
+      unsplash: "San Diego skyline"
+    },
+    { rank: 5,  city: "Long Beach",      state: "CA", total: 38.60, food: 8.41, drink: 8.44, other: 21.44, util: 0.32,
+      imgFiles: ["Long-Beach-skyline-at-dusk (21611595655).jpg","Long Beach skyline.jpg"],
+      unsplash: "Long Beach California skyline"
+    },
+    { rank: 6,  city: "San Jose",        state: "CA", total: 38.80, food: 8.15, drink: 8.90, other: 21.44, util: 0.32,
+      imgFiles: ["San Jose skyline 8382.jpg","San Jose skyline.jpg"],
+      unsplash: "San Jose skyline"
+    },
+    { rank: 7,  city: "Los Angeles",     state: "CA", total: 38.81, food: 8.70, drink: 8.36, other: 21.44, util: 0.32,
+      imgFiles: ["Bunker Hill Downtown Los Angeles.jpg","Los Angeles Skyline 08-2024.jpg"],
+      unsplash: "Los Angeles skyline"
+    },
+    { rank: 8,  city: "San Francisco",   state: "CA", total: 38.92, food: 8.72, drink: 8.45, other: 21.44, util: 0.32,
+      imgFiles: ["San Francisco skyline at blue hour.jpg","San Francisco Skyline 2024.jpg"],
+      unsplash: "San Francisco skyline"
+    },
+    { rank: 9,  city: "Sacramento",      state: "CA", total: 38.97, food: 9.04, drink: 8.17, other: 21.44, util: 0.32,
+      imgFiles: ["Sacramento, California skyline.jpg","Sacramento skyline.jpg"],
+      unsplash: "Sacramento skyline"
+    },
+    { rank: 10, city: "Seattle",         state: "WA", total: 39.15, food: 9.91, drink: 8.39, other: 20.71, util: 0.14,
+      imgFiles: ["Seattle skyline 2021.jpg","Seattle skyline.jpg"],
+      unsplash: "Seattle skyline"
+    },
   ];
 
   const METRICS = [
@@ -684,7 +672,9 @@
 
         <span class="city-score">
           <div class="city-score-top">
-            <span class="ball-ico" aria-hidden="true" title="Total per guest">${BALL_SVG}</span>
+            <span class="chip-ico" aria-hidden="true" title="Total per guest">
+              <img alt="" referrerpolicy="no-referrer" class="tint-white" src="${TOTAL_PER_GUEST_ICON_URL}">
+            </span>
             <div class="lbl">Total per guest</div>
           </div>
           <div class="num">$${r.total.toFixed(2)}</div>
@@ -695,17 +685,31 @@
 
   function money(n){ return `$${Number(n).toFixed(2)}`; }
 
-  function setHeroImage(fileName){
-    const src = commonsImg(fileName, 1600);
-    heroImg.classList.remove("is-hidden");
-    heroImg.src = src;
-    heroImg.alt = fileName ? "City background" : "";
+  function getHeroUrls(d){
+    const urls = [];
+    if(d.heroImgDirect) urls.push(d.heroImgDirect);
+    if(Array.isArray(d.imgFiles)){
+      d.imgFiles.forEach(f => urls.push(commonsImg(f, 1600)));
+    }
+    const q = d.unsplash || `${d.city} ${d.state} skyline`;
+    urls.push(unsplashImg(q, 1600, 900));
+    return urls;
+  }
 
-    // If image fails, hide the <img> so the green gradient shows (but without breaking layout).
-    heroImg.onerror = () => {
-      heroImg.classList.add("is-hidden");
-      heroImg.removeAttribute("src");
+  function loadImageWithFallback(imgEl, urls){
+    let i = 0;
+    imgEl.classList.remove("is-hidden");
+    imgEl.onload = () => { imgEl.classList.remove("is-hidden"); };
+    imgEl.onerror = () => {
+      i += 1;
+      if(i >= urls.length){
+        imgEl.classList.add("is-hidden");
+        imgEl.removeAttribute("src");
+        return;
+      }
+      imgEl.src = urls[i];
     };
+    imgEl.src = urls[i];
   }
 
   function render(idx){
@@ -715,13 +719,7 @@
     heroCity.textContent  = `${d.city}, ${d.state}`;
     heroTotal.textContent = money(d.total);
 
-    // Always attempt to render the city image.
-    if(d.imgFile){
-      setHeroImage(d.imgFile);
-    } else {
-      heroImg.classList.add("is-hidden");
-      heroImg.removeAttribute("src");
-    }
+    loadImageWithFallback(heroImg, getHeroUrls(d));
 
     metricsEl.innerHTML = METRICS.map(m => `
       <div class="mrow" role="group" aria-label="${escapeHtml(m.title)}">
@@ -772,7 +770,6 @@
   tabCheap.addEventListener("click", () => setMode("cheap"));
   tabExp.addEventListener("click", () => setMode("exp"));
 
-  // Copy embed snippet (optional)
   const copyBtn = document.getElementById("copyBtn");
   copyBtn.addEventListener("click", async () => {
     const snippet =
@@ -800,7 +797,6 @@
     }[c]));
   }
 
-  /* ===== icons ===== */
   function foodIcon(){
     return `<svg viewBox="0 0 24 24">
       <path d="M4 3v7a3 3 0 0 0 6 0V3"/>
