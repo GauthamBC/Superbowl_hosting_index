@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Super Bowl — Top 10 City Party Cost (per guest)</title>
+  <title>Super Bowl — City Party Cost (per guest)</title>
 
   <style>
     html, body { height:100%; }
@@ -14,6 +14,7 @@
 
 <body>
 <section class="action-sb" role="region" aria-labelledby="sb-title">
+
 <style>
   section.action-sb, section.action-sb *{
     box-sizing:border-box;
@@ -48,8 +49,7 @@
     --t-card-value: clamp(14px, 1.7vw, 18px);
   }
 
-  /* ===== OUTER SHELL (CMS-safe) =====
-     Key change: keep desktop layout in WordPress by NOT switching to mobile until narrower. */
+  /* ===== OUTER SHELL (CMS-safe) ===== */
   section.action-sb{
     height: min(740px, 100vh);
     max-height: min(740px, 100vh);
@@ -64,6 +64,58 @@
       linear-gradient(180deg, #061225 0%, #071a33 60%, #061225 100%);
     display:flex;
     flex-direction:column;
+  }
+
+  /* ===== TABS (FULL-WIDTH, NO PADDING, NO RADIUS) ===== */
+  .tabs{
+    flex: 0 0 auto;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    width:100%;
+    margin:0;
+    padding:0;
+    border-bottom: 1px solid rgba(255,255,255,.14);
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  }
+  .tab-btn{
+    border:0;
+    margin:0;
+    padding: 12px 10px;
+    border-radius: 0;
+    cursor:pointer;
+    color:#fff;
+    font-weight: 1000;
+    letter-spacing:.2px;
+    font-size: 13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 8px;
+    background: rgba(255,255,255,.06);
+    transition: background .15s ease;
+    user-select:none;
+  }
+  .tab-btn + .tab-btn{
+    border-left: 1px solid rgba(255,255,255,.10);
+  }
+  .tab-btn[aria-selected="true"]{
+    background:
+      radial-gradient(120% 180% at 85% 0%, rgba(255,255,255,.14) 0%, transparent 62%),
+      linear-gradient(92deg, var(--g1) 0%, var(--g2) 35%, var(--g3) 62%, var(--g4) 82%, var(--g5) 100%);
+  }
+  .tab-ico{
+    width:18px;height:18px;
+    display:grid;place-items:center;
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.08);
+  }
+  .tab-ico svg{
+    width:12px;height:12px;
+    stroke: rgba(255,255,255,.96);
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
   }
 
   /* ===== HEADER ===== */
@@ -107,7 +159,7 @@
     flex: 1 1 auto;
     min-height:0;
     padding: 10px 12px 10px;
-    overflow:hidden; /* keep the page tidy in WP */
+    overflow:hidden; /* tidy in WP */
   }
 
   .layout{
@@ -220,33 +272,17 @@
 
   .city-name{
     font-size: var(--t-city);
-    font-weight: 1000;
+    font-weight: 1050;
     line-height:1.1;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
   }
-  .city-meta{
-    margin-top: 6px;
-    font-size: 12px;
-    opacity:.90;
-    font-weight: 800;
-    display:flex; gap:8px; flex-wrap:wrap;
-  }
-  .meta-chip{
-    display:inline-flex; align-items:center; gap:6px;
-    padding: 5px 9px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.12);
-    border: 1px solid rgba(255,255,255,.18);
-    white-space:nowrap;
-  }
-  .meta-chip svg{ width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.95; }
 
   .city-score{
     text-align:right;
     flex:0 0 auto;
-    min-width: 96px;
+    min-width: 124px;
   }
   .city-score-top{
     display:flex;
@@ -254,7 +290,7 @@
     justify-content:flex-end;
     gap: 6px;
   }
-  .coin-ico{
+  .ball-ico{
     width: 18px; height: 18px;
     border-radius: 9px;
     display:grid;
@@ -264,10 +300,10 @@
     box-shadow: 0 10px 18px rgba(0,0,0,.14);
     flex: 0 0 auto;
   }
-  .coin-ico svg{
+  .ball-ico svg{
     width: 12px; height: 12px;
     stroke: rgba(255,255,255,.96);
-    fill: none;
+    fill:none;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -308,17 +344,20 @@
     border: 1px solid var(--border);
     overflow:hidden;
     position:relative;
-    height: 180px; /* slimmer than before */
-    background: linear-gradient(180deg, var(--g2), var(--g4));
+    height: 180px;
+    background: linear-gradient(135deg, var(--g1), var(--g5));
     box-shadow: 0 14px 30px rgba(11,39,77,.12);
   }
-  .hero img{
+  .hero-photo{
     position:absolute; inset:0;
     width:100%; height:100%;
     object-fit:cover;
+    display:block;
     transform: scale(1.02);
     filter: saturate(1.02) contrast(1.02);
   }
+  .hero-photo.is-hidden{ display:none; }
+
   .hero .overlay{
     position:absolute; inset:0;
     background:
@@ -476,9 +515,7 @@
   }
   .copy-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.18); }
 
-  /* ===== RESPONSIVE =====
-     WP classic editor often renders embeds in a narrow column.
-     We keep desktop layout until truly small. */
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 720px){
     .layout{ grid-template-columns: 1fr; }
     .rail{
@@ -493,13 +530,29 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .mrow, .city-btn { transition:none !important; }
+    .mrow, .city-btn, .tab-btn { transition:none !important; }
   }
 </style>
 
+<!-- FULL-WIDTH TABS (flush to edges) -->
+<nav class="tabs" aria-label="City list toggle">
+  <button class="tab-btn" id="tabCheap" type="button" aria-selected="true">
+    <span class="tab-ico" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0"/><path d="M6 12c3-4 9-4 12 0"/><path d="M8.5 12h7"/><path d="M12 9.5v5"/></svg>
+    </span>
+    Cheapest Cities
+  </button>
+  <button class="tab-btn" id="tabExp" type="button" aria-selected="false">
+    <span class="tab-ico" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0"/><path d="M6 12c3-4 9-4 12 0"/><path d="M8.5 12h7"/><path d="M12 9.5v5"/></svg>
+    </span>
+    Most Expensive Cities
+  </button>
+</nav>
+
 <header class="head">
   <div class="head-top">
-    <h3 class="title" id="sb-title">Super Bowl — Top 10 City Party Cost (per guest)</h3>
+    <h3 class="title" id="sb-title">Cheapest Cities to Host a Super Bowl Party — Top 10</h3>
     <div class="brand" aria-label="Brand">
       <img alt="Action logo" src="https://i.postimg.cc/x1nG117r/AN-final2-logo.png">
     </div>
@@ -515,7 +568,7 @@
 
         <!-- MAIN HERO METRIC -->
         <section class="hero" aria-label="Main metric">
-          <img id="heroImg" alt="" loading="eager" decoding="async">
+          <img id="heroImg" class="hero-photo" alt="" loading="eager" decoding="async" referrerpolicy="no-referrer">
           <div class="overlay" aria-hidden="true"></div>
 
           <div class="hero-content">
@@ -525,10 +578,12 @@
               <div class="hero-value" id="heroTotal">$26.24</div>
             </div>
 
-            <div class="hero-icon" aria-hidden="true" title="Cost">
+            <div class="hero-icon" aria-hidden="true" title="Football">
+              <!-- football icon -->
               <svg viewBox="0 0 24 24">
-                <path d="M12 3v18"/>
-                <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
+                <path d="M20 12c0 4-4 8-8 8s-8-4-8-8 4-8 8-8 8 4 8 8Z"/>
+                <path d="M8 12h8"/>
+                <path d="M10 10.5l1-1"/><path d="M12 10.5v3"/><path d="M14 10.5l-1-1"/>
               </svg>
             </div>
           </div>
@@ -536,46 +591,58 @@
 
         <!-- SLIM METRICS (ONE PER ROW) -->
         <section class="metrics" id="metrics" aria-label="Cost breakdown"></section>
+
       </div>
     </main>
   </div>
 </div>
 
 <footer class="foot" role="contentinfo">
-  <small>Pick a city to view the cost breakdown.</small>
+  <small>Select a city to view the cost breakdown.</small>
   <button class="copy-btn" id="copyBtn" type="button">Copy embed snippet</button>
 </footer>
 
 <script>
-  const COIN_SVG = `
+  /* Build a reliable, direct image URL from a Wikimedia Commons filename.
+     Using Special:FilePath + ?width=1600 avoids “missing image” issues and forces a renderable image response. */
+  function commonsImg(fileName, width = 1600){
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(fileName)}?width=${width}`;
+  }
+
+  const BALL_SVG = `
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 3v18"/>
-      <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
+      <path d="M20 12c0 4-4 8-8 8s-8-4-8-8 4-8 8-8 8 4 8 8Z"/>
+      <path d="M8 12h8"/>
+      <path d="M10 10.5l1-1"/><path d="M12 10.5v3"/><path d="M14 10.5l-1-1"/>
     </svg>
   `;
 
-  /* You can replace heroImg URLs with your own hosted images later. */
-  const CITY_ROWS = [
-    { rank: 1,  city: "Green Bay",        state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Green%20Bay%20city%20skyline.jpg" },
-    { rank: 2,  city: "Wichita",          state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Wichita%20Kansas%20skyline.jpg" },
-    { rank: 3,  city: "Milwaukee",        state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Milwaukee%20skyline.jpg" },
-    { rank: 4,  city: "Omaha",            state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Omaha%20skyline.jpg" },
-    { rank: 5,  city: "Virginia Beach",   state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Virginia%20Beach%20oceanfront.jpg" },
-    { rank: 6,  city: "Detroit",          state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Detroit%20Skyline.jpg" },
-    { rank: 7,  city: "Louisville",       state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Louisville%20skyline.jpg" },
-    { rank: 8,  city: "Cleveland",        state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Cleveland%20skyline.jpg" },
-    { rank: 9,  city: "Indianapolis",     state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Indianapolis%20skyline.jpg" },
-    { rank: 10, city: "Cincinnati",       state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18,
-      heroImg: "https://commons.wikimedia.org/wiki/Special:FilePath/Cincinnati%20skyline.jpg" },
+  // ===== DATA (CHEAPEST) =====
+  const CHEAP_ROWS = [
+    { rank: 1,  city: "Green Bay",      state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19, imgFile: "Green Bay July 2024 045 (skyline and Fox River).jpg" },
+    { rank: 2,  city: "Wichita",        state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15, imgFile: "Wichita Skyline 2021.jpg" },
+    { rank: 3,  city: "Milwaukee",      state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19, imgFile: "Milwaukee skyline.jpg" },
+    { rank: 4,  city: "Omaha",          state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14, imgFile: "Omaha skyline.jpg" },
+    { rank: 5,  city: "Virginia Beach", state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17, imgFile: "Virginia Beach Oceanfront.jpg" },
+    { rank: 6,  city: "Detroit",        state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21, imgFile: "DetroitSkyline.jpg" },
+    { rank: 7,  city: "Louisville",     state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14, imgFile: "Louisville, Kentucky skyline at night (2021).jpg" },
+    { rank: 8,  city: "Cleveland",      state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18, imgFile: "Cleveland skyline.jpg" },
+    { rank: 9,  city: "Indianapolis",   state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17, imgFile: "Indianapolis skyline (43739288405).jpg" },
+    { rank: 10, city: "Cincinnati",     state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18, imgFile: "Cincinnati night skyline from Covington, January 2019.jpg" },
+  ];
+
+  // ===== DATA (MOST EXPENSIVE) =====
+  const EXP_ROWS = [
+    { rank: 1,  city: "Washington D.C.", state: "DC", total: 36.58, food: 9.45, drink: 8.56, other: 18.34, util: 0.24, imgFile: "Washington DC Panorama.jpg" },
+    { rank: 2,  city: "Miami",           state: "FL", total: 37.64, food: 8.28, drink: 8.52, other: 20.68, util: 0.16, imgFile: "Miami, Florida skyline.jpg" },
+    { rank: 3,  city: "New York City",   state: "NY", total: 37.65, food: 9.93, drink: 8.27, other: 19.18, util: 0.27, imgFile: "Skyline-New-York-City.jpg" },
+    { rank: 4,  city: "San Diego",       state: "CA", total: 38.29, food: 8.26, drink: 8.27, other: 21.44, util: 0.32, imgFile: "San Diego Skyline (8350201324).jpg" },
+    { rank: 5,  city: "Long Beach",      state: "CA", total: 38.60, food: 8.41, drink: 8.44, other: 21.44, util: 0.32, imgFile: "Long-Beach-skyline-at-dusk (21611595655).jpg" },
+    { rank: 6,  city: "San Jose",        state: "CA", total: 38.80, food: 8.15, drink: 8.90, other: 21.44, util: 0.32, imgFile: "San Jose skyline 8382.jpg" },
+    { rank: 7,  city: "Los Angeles",     state: "CA", total: 38.81, food: 8.70, drink: 8.36, other: 21.44, util: 0.32, imgFile: "Los Angeles Skyline 08-2024.jpg" },
+    { rank: 8,  city: "San Francisco",   state: "CA", total: 38.92, food: 8.72, drink: 8.45, other: 21.44, util: 0.32, imgFile: "San Francisco Skyline 2024.jpg" },
+    { rank: 9,  city: "Sacramento",      state: "CA", total: 38.97, food: 9.04, drink: 8.17, other: 21.44, util: 0.32, imgFile: "Sacramento, California skyline.jpg" },
+    { rank: 10, city: "Seattle",         state: "WA", total: 39.15, food: 9.91, drink: 8.39, other: 20.71, util: 0.14, imgFile: "Seattle skyline 2021.jpg" },
   ];
 
   const METRICS = [
@@ -590,6 +657,13 @@
   const heroTotal = document.getElementById("heroTotal");
   const heroImg   = document.getElementById("heroImg");
   const metricsEl = document.getElementById("metrics");
+  const titleEl   = document.getElementById("sb-title");
+
+  const tabCheap  = document.getElementById("tabCheap");
+  const tabExp    = document.getElementById("tabExp");
+
+  let mode = "cheap";
+  let ACTIVE_ROWS = CHEAP_ROWS;
 
   function medalClass(rank){
     if(rank === 1) return "rank-1";
@@ -599,28 +673,19 @@
   }
 
   function buildRail(){
-    railEl.innerHTML = CITY_ROWS.map((r, i) => `
+    railEl.innerHTML = ACTIVE_ROWS.map((r, i) => `
       <button class="city-btn" type="button" data-idx="${i}" aria-pressed="${i===0 ? "true":"false"}">
         <span class="city-left">
           <span class="rank-medal ${medalClass(r.rank)}" aria-label="Rank ${r.rank}">${r.rank}</span>
           <span style="min-width:0">
-            <div class="city-name">${escapeHtml(r.city)}</div>
-            <div class="city-meta">
-              <span class="meta-chip" title="State">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z"/>
-                  <path d="M12 10.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"/>
-                </svg>
-                ${escapeHtml(r.state)}
-              </span>
-            </div>
+            <div class="city-name">${escapeHtml(r.city)}, ${escapeHtml(r.state)}</div>
           </span>
         </span>
 
         <span class="city-score">
           <div class="city-score-top">
-            <span class="coin-ico" aria-hidden="true" title="Total cost">${COIN_SVG}</span>
-            <div class="lbl">Total</div>
+            <span class="ball-ico" aria-hidden="true" title="Total per guest">${BALL_SVG}</span>
+            <div class="lbl">Total per guest</div>
           </div>
           <div class="num">$${r.total.toFixed(2)}</div>
         </span>
@@ -630,17 +695,33 @@
 
   function money(n){ return `$${Number(n).toFixed(2)}`; }
 
+  function setHeroImage(fileName){
+    const src = commonsImg(fileName, 1600);
+    heroImg.classList.remove("is-hidden");
+    heroImg.src = src;
+    heroImg.alt = fileName ? "City background" : "";
+
+    // If image fails, hide the <img> so the green gradient shows (but without breaking layout).
+    heroImg.onerror = () => {
+      heroImg.classList.add("is-hidden");
+      heroImg.removeAttribute("src");
+    };
+  }
+
   function render(idx){
-    const d = CITY_ROWS[idx];
+    const d = ACTIVE_ROWS[idx];
     if(!d) return;
 
     heroCity.textContent  = `${d.city}, ${d.state}`;
     heroTotal.textContent = money(d.total);
 
-    // hero image
-    heroImg.src = d.heroImg || "";
-    heroImg.alt = d.heroImg ? `${d.city} background` : "";
-    heroImg.onerror = () => heroImg.removeAttribute("src");
+    // Always attempt to render the city image.
+    if(d.imgFile){
+      setHeroImage(d.imgFile);
+    } else {
+      heroImg.classList.add("is-hidden");
+      heroImg.removeAttribute("src");
+    }
 
     metricsEl.innerHTML = METRICS.map(m => `
       <div class="mrow" role="group" aria-label="${escapeHtml(m.title)}">
@@ -670,12 +751,33 @@
     });
   }
 
+  function setMode(nextMode){
+    mode = nextMode;
+    const isCheap = mode === "cheap";
+
+    tabCheap.setAttribute("aria-selected", String(isCheap));
+    tabExp.setAttribute("aria-selected", String(!isCheap));
+
+    ACTIVE_ROWS = isCheap ? CHEAP_ROWS : EXP_ROWS;
+
+    titleEl.textContent = isCheap
+      ? "Cheapest Cities to Host a Super Bowl Party — Top 10"
+      : "Most Expensive Cities to Host a Super Bowl Party — Top 10";
+
+    buildRail();
+    wireRail();
+    render(0);
+  }
+
+  tabCheap.addEventListener("click", () => setMode("cheap"));
+  tabExp.addEventListener("click", () => setMode("exp"));
+
   // Copy embed snippet (optional)
   const copyBtn = document.getElementById("copyBtn");
   copyBtn.addEventListener("click", async () => {
     const snippet =
 `<iframe
-  title="Super Bowl — Top 10 City Party Cost (per guest)"
+  title="Super Bowl — City Party Cost (per guest)"
   src="YOUR_EMBED_URL_HERE"
   width="100%"
   height="740"
@@ -728,10 +830,10 @@
     </svg>`;
   }
 
-  buildRail();
-  wireRail();
-  render(0);
+  // init
+  setMode("cheap");
 </script>
+
 </section>
 </body>
 </html>
