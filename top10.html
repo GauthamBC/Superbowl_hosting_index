@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Super Bowl — Top 10 City Cost Preview (Action)</title>
+
+  <style>
+    html, body { height:100%; }
+    body { margin:0; background:#061225; overflow:hidden; }
+  </style>
+</head>
+
+<body>
+<section class="action-sb" role="region" aria-labelledby="sb-title">
+<style>
+  section.action-sb, section.action-sb *{
+    box-sizing:border-box;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* ===== BRAND (GREEN) ===== */
+  .action-sb{
+    --g1:#0B2D1F;
+    --g2:#0E4A33;
+    --g3:#136647;
+    --g4:#1B845C;
+    --g5:#34B37B;
+
+    --ink:#0B1220;
+    --muted:#556277;
+
+    --border:#d7e2f3;
+    --shadow: 0 16px 42px rgba(0,0,0,.30);
+    --shadow2: 0 10px 26px rgba(0,0,0,.22);
+
+    --gap: 12px;
+    --inner-pad: 14px;
+
+    --t-title: clamp(16px, 2.0vw, 22px);
+    --t-city:  clamp(13px, 1.4vw, 15px);
+
+    /* compact typography for CMS */
+    --t-big:   clamp(26px, 3.2vw, 38px);
+    --t-card-title: clamp(13px, 1.5vw, 16px);
+    --t-card-value: clamp(14px, 1.7vw, 18px);
+  }
+
+  /* ===== OUTER SHELL (smaller for CMS) ===== */
+  section.action-sb{
+    height: min(760px, 100vh);
+    max-height: min(760px, 100vh);
+    max-width: 920px;
+    margin: 0 auto;
+    overflow:hidden;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: var(--shadow);
+    background:
+      radial-gradient(900px 520px at 70% 10%, rgba(52,179,123,.18) 0%, transparent 58%),
+      radial-gradient(900px 520px at 10% 30%, rgba(27,132,92,.14) 0%, transparent 62%),
+      linear-gradient(180deg, #061225 0%, #071a33 60%, #061225 100%);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ===== HEADER ===== */
+  .head{
+    padding: 12px 14px 10px;
+    color:#fff;
+    border-bottom: 1px solid rgba(255,255,255,.14);
+    background:
+      radial-gradient(120% 180% at 85% 0%, rgba(255,255,255,.16) 0%, transparent 62%),
+      linear-gradient(92deg, var(--g1) 0%, var(--g2) 35%, var(--g3) 62%, var(--g4) 82%, var(--g5) 100%);
+    flex: 0 0 auto;
+  }
+  .head-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .title{
+    margin:0;
+    font-size: var(--t-title);
+    font-weight: 1000;
+    letter-spacing:.2px;
+    line-height:1.12;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding: 7px 9px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.20);
+    background: rgba(255,255,255,.10);
+  }
+  .brand img{
+    height: 22px; width:auto; display:block;
+    filter: brightness(0) invert(1);
+    opacity:.98;
+  }
+
+  /* ===== BODY ===== */
+  .wrap{
+    flex: 1 1 auto;
+    min-height:0;
+    padding: 10px 12px 10px;
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .layout{
+    min-height: 100%;
+    display:grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--gap);
+    align-items:stretch;
+  }
+
+  /* LEFT LIST */
+  .rail{
+    display:flex;
+    flex-direction:column;
+    gap: var(--gap);
+    height:100%;
+    overflow:auto;
+    padding-right: 6px;
+  }
+
+  /* GREEN scrollbars (rail + wrap) */
+  .rail::-webkit-scrollbar,
+  .board-inner::-webkit-scrollbar,
+  .wrap::-webkit-scrollbar{ width: 10px; height: 10px; }
+  .rail::-webkit-scrollbar-track,
+  .board-inner::-webkit-scrollbar-track,
+  .wrap::-webkit-scrollbar-track{
+    background: rgba(255,255,255,.08);
+    border-radius: 999px;
+  }
+  .rail::-webkit-scrollbar-thumb,
+  .board-inner::-webkit-scrollbar-thumb,
+  .wrap::-webkit-scrollbar-thumb{
+    background: linear-gradient(180deg, var(--g4), var(--g5));
+    border-radius: 999px;
+    border: 2px solid rgba(6,18,37,.65);
+  }
+  .rail, .board-inner, .wrap{
+    scrollbar-width: thin;
+    scrollbar-color: var(--g4) rgba(255,255,255,.10);
+  }
+
+  .city-btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+
+    width:100%;
+    text-align:left;
+    padding: 12px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.10);
+
+    color:#fff;
+    box-shadow: var(--shadow2);
+    cursor:pointer;
+    transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .city-btn:hover{
+    transform: translateY(-1px);
+    border-color: rgba(52,179,123,.55);
+    background: rgba(14,74,51,.18);
+    box-shadow: 0 16px 32px rgba(0,0,0,.28);
+  }
+  .city-btn[aria-pressed="true"]{
+    border-color: rgba(52,179,123,.85);
+    background:
+      radial-gradient(140% 160% at 20% 0%, rgba(52,179,123,.36) 0%, transparent 58%),
+      linear-gradient(180deg, rgba(27,132,92,.30) 0%, rgba(11,45,31,.20) 100%),
+      rgba(255,255,255,.10);
+    box-shadow: 0 18px 36px rgba(0,0,0,.32);
+  }
+  .city-btn[aria-pressed="true"]::after{
+    content:"";
+    position:absolute; inset:0;
+    pointer-events:none;
+    background: linear-gradient(90deg, rgba(255,255,255,.10), transparent 55%);
+    mix-blend-mode: overlay;
+    opacity:.75;
+  }
+
+  .city-left{ display:flex;align-items:center;gap:10px;min-width:0; }
+
+  /* Rank medals */
+  .rank-medal{
+    width: 30px; height: 30px;
+    border-radius: 999px;
+    display:grid;
+    place-items:center;
+    font-weight: 1100;
+    font-size: 12px;
+    color: #061225;
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    position: relative;
+    flex: 0 0 auto;
+  }
+  .rank-medal::after{
+    content:"";
+    position:absolute;
+    bottom:-9px;
+    left:50%;
+    transform:translateX(-50%);
+    width:0; height:0;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-top:10px solid #c73434;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+  }
+  .rank-1{ background: radial-gradient(120% 140% at 30% 20%, #fff3b0 0%, #e6b800 62%, #b98a00 100%); }
+  .rank-2{ background: radial-gradient(120% 140% at 30% 20%, #ffffff 0%, #cdd5df 64%, #9aa6b4 100%); }
+  .rank-3{ background: radial-gradient(120% 140% at 30% 20%, #ffd7bf 0%, #c07a3a 62%, #8a4b1f 100%); }
+  .rank-rest{
+    background: radial-gradient(120% 140% at 30% 20%, #f7fbff 0%, #b7c8dd 66%, #7f99b6 100%);
+    color:#061225;
+  }
+
+  .city-name{
+    font-size: var(--t-city);
+    font-weight: 1000;
+    line-height:1.1;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .city-meta{
+    margin-top: 6px;
+    font-size: 12px;
+    opacity:.90;
+    font-weight: 800;
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .meta-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    white-space:nowrap;
+  }
+  .meta-chip svg{ width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.95; }
+
+  .city-score{
+    text-align:right;
+    flex:0 0 auto;
+    min-width: 96px;
+  }
+  .city-score-top{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap: 6px;
+  }
+  .coin-ico{
+    width: 18px; height: 18px;
+    border-radius: 9px;
+    display:grid;
+    place-items:center;
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.08);
+    box-shadow: 0 10px 18px rgba(0,0,0,.14);
+    flex: 0 0 auto;
+  }
+  .coin-ico svg{
+    width: 12px; height: 12px;
+    stroke: rgba(255,255,255,.96);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: .98;
+  }
+  .city-score .lbl{ font-size: 11px; opacity:.88; font-weight: 900; }
+  .city-score .num{ font-size: 18px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+
+  /* RIGHT BOARD */
+  .board{
+    height:100%;
+    border-radius: 22px;
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: var(--shadow2);
+    overflow:hidden;
+    position:relative;
+  }
+  .board::before{
+    content:"";
+    position:absolute; inset:-2px;
+    background:
+      radial-gradient(900px 520px at 75% 0%, rgba(52,179,123,.16) 0%, transparent 55%),
+      radial-gradient(900px 520px at 12% 10%, rgba(27,132,92,.10) 0%, transparent 60%);
+    pointer-events:none;
+  }
+
+  .board-inner{
+    position:relative; z-index:1;
+    padding: var(--inner-pad);
+    height:100%;
+    overflow:auto;
+  }
+
+  /* TOP SUMMARY */
+  .summary{
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, #ffffff, #f6fffb);
+    padding: 14px 14px 12px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 12px;
+    box-shadow: 0 12px 24px rgba(11,39,77,.10);
+  }
+  .summary-left{ min-width:0; }
+  .summary-kicker{
+    font-size: 12px;
+    font-weight: 1000;
+    color: #2a3850;
+    letter-spacing:.2px;
+    line-height: 1.1;
+  }
+  .summary-city{
+    margin-top: 8px;
+    font-size: clamp(16px, 2.1vw, 22px);
+    font-weight: 1100;
+    color: var(--ink);
+    line-height: 1.05;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .summary-big{
+    margin-top: 10px;
+    font-size: var(--t-big);
+    font-weight: 1150;
+    color: var(--ink);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .summary-right{
+    flex:0 0 auto;
+    width: 64px; height: 64px;
+    border-radius: 20px;
+    border: 1px solid #d9f3e5;
+    background:
+      radial-gradient(120% 140% at 30% 20%, rgba(52,179,123,.22) 0%, transparent 65%),
+      linear-gradient(180deg, #ffffff, #f0fffa);
+    display:grid;
+    place-items:center;
+    box-shadow: 0 12px 24px rgba(11,39,77,.10);
+  }
+  .summary-right svg{
+    width: 28px; height: 28px;
+    stroke: var(--g3);
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  /* METRICS GRID (RIGHT) */
+  .metrics{
+    margin-top: var(--gap);
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap);
+  }
+
+  .mcard{
+    border-radius: 22px;
+    background: linear-gradient(180deg, #ffffff, #f7fffb);
+    border: 1px solid var(--border);
+    padding: 16px;
+    min-height: 126px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 10px 14px;
+    align-items:start;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .mcard:hover{
+    transform: translateY(-2px);
+    border-color: rgba(52,179,123,.55);
+    box-shadow: 0 18px 38px rgba(11,39,77,.14);
+  }
+
+  .mTitle{
+    margin:0;
+    font-size: var(--t-card-title);
+    font-weight: 1100;
+    color: var(--ink);
+    line-height:1.05;
+  }
+  .mValue{
+    margin-top: 8px;
+    font-size: var(--t-card-value);
+    color: var(--ink);
+    font-weight: 1100;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mIcon{
+    width: 52px; height: 52px;
+    border-radius: 18px;
+    border: 1px solid #d9f3e5;
+    background:
+      radial-gradient(120% 140% at 30% 20%, rgba(52,179,123,.20) 0%, transparent 65%),
+      linear-gradient(180deg, #ffffff, #f0fffa);
+    display:grid;
+    place-items:center;
+    box-shadow: 0 12px 24px rgba(11,39,77,.10);
+    align-self:start;
+  }
+  .mIcon svg{
+    width:26px;height:26px;
+    stroke: var(--g3);
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  /* FOOTER (optional, compact) */
+  .foot{
+    padding: 9px 12px;
+    border-top: 1px solid rgba(255,255,255,.14);
+    background: linear-gradient(92deg, var(--g1) 0%, var(--g2) 40%, var(--g3) 70%, var(--g5) 100%);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+    flex: 0 0 auto;
+  }
+  .foot small{ opacity:.92; font-weight: 850; font-size: 12px; }
+  .copy-btn{
+    border: 1px solid rgba(255,255,255,.28);
+    background: rgba(255,255,255,.12);
+    color:#fff;
+    font-weight: 1000;
+    padding: 8px 10px;
+    border-radius: 12px;
+    cursor:pointer;
+    transition: transform .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .copy-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.18); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px){
+    section.action-sb{ height: min(820px, 100vh); max-width: 720px; }
+    .layout{ grid-template-columns: 1fr; }
+    .rail{
+      flex-direction:row;
+      overflow:auto;
+      padding: 0 2px 8px;
+      scroll-snap-type: x mandatory;
+      height: auto;
+    }
+    .city-btn{ min-width: 320px; scroll-snap-align: start; }
+    .board{ height: auto; }
+  }
+
+  @media (max-width: 560px){
+    section.action-sb{ max-width: 100%; border-radius: 0; }
+    .metrics{ grid-template-columns: 1fr; }
+    .summary-right{ width: 58px; height: 58px; border-radius: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .mcard, .city-btn { transition:none !important; }
+  }
+</style>
+
+<header class="head">
+  <div class="head-top">
+    <h3 class="title" id="sb-title">Super Bowl — Top 10 City Party Cost (per guest)</h3>
+    <div class="brand" aria-label="Brand">
+      <img alt="Action logo" src="https://i.postimg.cc/x1nG117r/AN-final2-logo.png">
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+    <aside class="rail" id="rail" aria-label="City selector"></aside>
+
+    <main class="board" aria-live="polite">
+      <div class="board-inner">
+        <section class="summary" aria-label="Selected city summary">
+          <div class="summary-left">
+            <div class="summary-kicker">Selected City</div>
+            <div class="summary-city" id="heroCity">Green Bay, WI</div>
+            <div class="summary-big" id="heroTotal">$26.24</div>
+          </div>
+
+          <div class="summary-right" aria-hidden="true" title="Total cost per guest">
+            <!-- money icon -->
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v18"/>
+              <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
+              <path d="M6 12h0"/>
+            </svg>
+          </div>
+        </section>
+
+        <section class="metrics" id="metrics" aria-label="Cost metrics"></section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<footer class="foot" role="contentinfo">
+  <small>Pick a city to view the cost breakdown.</small>
+  <button class="copy-btn" id="copyBtn" type="button">Copy embed snippet</button>
+</footer>
+
+<script>
+  const COIN_SVG = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3v18"/>
+      <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
+    </svg>
+  `;
+
+  const CITY_ROWS = [
+    { rank: 1,  city: "Green Bay",        state: "WI", total: 26.24, food: 5.48, drink: 4.63, other: 15.95, util: 0.19 },
+    { rank: 2,  city: "Wichita",          state: "KS", total: 29.38, food: 5.50, drink: 5.66, other: 18.06, util: 0.15 },
+    { rank: 3,  city: "Milwaukee",        state: "WI", total: 29.69, food: 7.18, drink: 6.38, other: 15.95, util: 0.19 },
+    { rank: 4,  city: "Omaha",            state: "NE", total: 30.54, food: 6.57, drink: 6.91, other: 16.93, util: 0.14 },
+    { rank: 5,  city: "Virginia Beach",   state: "VA", total: 30.59, food: 5.16, drink: 6.56, other: 18.70, util: 0.17 },
+    { rank: 6,  city: "Detroit",          state: "MI", total: 30.64, food: 6.68, drink: 6.74, other: 17.02, util: 0.21 },
+    { rank: 7,  city: "Louisville",       state: "KY", total: 31.11, food: 6.46, drink: 6.18, other: 18.33, util: 0.14 },
+    { rank: 8,  city: "Cleveland",        state: "OH", total: 31.50, food: 6.64, drink: 6.41, other: 18.27, util: 0.18 },
+    { rank: 9,  city: "Indianapolis",     state: "IN", total: 31.74, food: 7.37, drink: 6.98, other: 17.22, util: 0.17 },
+    { rank: 10, city: "Cincinnati",       state: "OH", total: 31.77, food: 6.43, drink: 6.89, other: 18.27, util: 0.18 },
+  ];
+
+  const METRICS = [
+    { key:"total", title:"Super Bowl Party Cost per Guest", icon: moneyIcon() },
+    { key:"food",  title:"Food Cost per Guest",             icon: foodIcon()  },
+    { key:"drink", title:"Drink Cost per Guest",            icon: drinkIcon() },
+    { key:"other", title:"Other Grocery Costs per Guest",   icon: cartIcon()  },
+    { key:"util",  title:"Shared Utilities Cost per Guest", icon: boltIcon()  },
+  ];
+
+  const railEl    = document.getElementById("rail");
+  const heroCity  = document.getElementById("heroCity");
+  const heroTotal = document.getElementById("heroTotal");
+  const metricsEl = document.getElementById("metrics");
+
+  function medalClass(rank){
+    if(rank === 1) return "rank-1";
+    if(rank === 2) return "rank-2";
+    if(rank === 3) return "rank-3";
+    return "rank-rest";
+  }
+
+  function buildRail(){
+    railEl.innerHTML = CITY_ROWS.map((r, i) => `
+      <button class="city-btn" type="button" data-idx="${i}" aria-pressed="${i===0 ? "true":"false"}">
+        <span class="city-left">
+          <span class="rank-medal ${medalClass(r.rank)}" aria-label="Rank ${r.rank}">${r.rank}</span>
+          <span style="min-width:0">
+            <div class="city-name">${escapeHtml(r.city)}</div>
+            <div class="city-meta">
+              <span class="meta-chip" title="State">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z"/>
+                  <path d="M12 10.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"/>
+                </svg>
+                ${escapeHtml(r.state)}
+              </span>
+            </div>
+          </span>
+        </span>
+
+        <span class="city-score">
+          <div class="city-score-top">
+            <span class="coin-ico" aria-hidden="true" title="Total cost">${COIN_SVG}</span>
+            <div class="lbl">Total</div>
+          </div>
+          <div class="num">$${r.total.toFixed(2)}</div>
+        </span>
+      </button>
+    `).join("");
+  }
+
+  function money(n){ return `$${Number(n).toFixed(2)}`; }
+
+  function render(idx){
+    const d = CITY_ROWS[idx];
+    if(!d) return;
+
+    heroCity.textContent  = `${d.city}, ${d.state}`;
+    heroTotal.textContent = money(d.total);
+
+    metricsEl.innerHTML = METRICS.map(m => {
+      const val = d[m.key];
+      return `
+        <div class="mcard" role="group" aria-label="${escapeHtml(m.title)}">
+          <div>
+            <h4 class="mTitle">${escapeHtml(m.title)}</h4>
+            <div class="mValue">${money(val)}</div>
+          </div>
+          <div class="mIcon" aria-hidden="true" title="${escapeHtml(m.title)}">${m.icon}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function wireRail(){
+    const btns = Array.from(document.querySelectorAll(".city-btn"));
+    btns.forEach(b => {
+      b.addEventListener("click", () => {
+        btns.forEach(x => x.setAttribute("aria-pressed","false"));
+        b.setAttribute("aria-pressed","true");
+        render(Number(b.dataset.idx));
+      });
+      b.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          b.click();
+        }
+      });
+    });
+  }
+
+  // Copy embed snippet (optional)
+  const copyBtn = document.getElementById("copyBtn");
+  copyBtn.addEventListener("click", async () => {
+    const snippet =
+`<iframe
+  title="Super Bowl — Top 10 City Party Cost (per guest)"
+  src="YOUR_EMBED_URL_HERE"
+  width="100%"
+  height="760"
+  scrolling="no"
+  style="border:0; overflow:hidden; display:block; width:100%;"
+  loading="lazy"></iframe>`;
+    try{
+      await navigator.clipboard.writeText(snippet);
+      copyBtn.textContent = "Copied ✓";
+      setTimeout(()=> copyBtn.textContent = "Copy embed snippet", 1600);
+    }catch(_){
+      copyBtn.textContent = "Copy failed";
+      setTimeout(()=> copyBtn.textContent = "Copy embed snippet", 1600);
+    }
+  });
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[c]));
+  }
+
+  /* ===== icons ===== */
+  function moneyIcon(){
+    return `<svg viewBox="0 0 24 24">
+      <path d="M12 3v18"/>
+      <path d="M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.5 12 10.5s4.5 1.6 4.5 3.5-2 3.5-4.5 3.5-4.5-1.6-4.5-3.5"/>
+    </svg>`;
+  }
+  function foodIcon(){
+    return `<svg viewBox="0 0 24 24">
+      <path d="M4 3v7a3 3 0 0 0 6 0V3"/>
+      <path d="M7 3v8"/>
+      <path d="M14 3v18"/>
+      <path d="M14 8c0-3 2-5 6-5v5c0 3-2 5-6 5"/>
+    </svg>`;
+  }
+  function drinkIcon(){
+    return `<svg viewBox="0 0 24 24">
+      <path d="M7 3h10l-1 7a4 4 0 0 1-8 0L7 3Z"/>
+      <path d="M10 21h4"/>
+      <path d="M12 14v7"/>
+      <path d="M9 6h6"/>
+    </svg>`;
+  }
+  function cartIcon(){
+    return `<svg viewBox="0 0 24 24">
+      <path d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2"/>
+      <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/>
+      <path d="M18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/>
+    </svg>`;
+  }
+  function boltIcon(){
+    return `<svg viewBox="0 0 24 24">
+      <path d="M13 2 3 14h7l-1 8 12-14h-7l-1-6Z"/>
+    </svg>`;
+  }
+
+  buildRail();
+  wireRail();
+  render(0);
+</script>
+</section>
+</body>
+</html>
