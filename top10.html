@@ -685,57 +685,22 @@
     },
   ];
 
-  const EXP_ROWS = [
-    { rank: 1,  city: "Washington D.C.", state: "DC", total: 36.58, food: 9.45, drink: 8.56, other: 18.34, util: 0.24,
+    const EXP_ROWS = [
+    { rank: 1,  city: "Seattle",         state: "WA", total: 39.15, food: 9.91, drink: 8.39, other: 20.71, util: 0.14,
       imgFiles: [
-        "Washington DC Panorama.jpg",
-        "Washington Monument and skyline.jpg"
+        "Seattle skyline 2021.jpg",
+        "Seattle skyline.jpg"
       ],
-      unsplash: "Washington DC skyline"
+      unsplash: "Seattle skyline"
     },
-    { rank: 2,  city: "Miami",           state: "FL", total: 37.64, food: 8.28, drink: 8.52, other: 20.68, util: 0.16,
+    { rank: 2,  city: "Sacramento",      state: "CA", total: 38.97, food: 9.04, drink: 8.17, other: 21.44, util: 0.32,
       imgFiles: [
-        "Miami, Florida skyline.jpg",
-        "Miami skyline.jpg"
+        "Sacramento, California skyline.jpg",
+        "Sacramento skyline.jpg"
       ],
-      unsplash: "Miami skyline"
+      unsplash: "Sacramento skyline"
     },
-    { rank: 3,  city: "New York City",   state: "NY", total: 37.65, food: 9.93, drink: 8.27, other: 19.18, util: 0.27,
-      imgFiles: [
-        "Skyline-New-York-City.jpg",
-        "Manhattan skyline.jpg"
-      ],
-      unsplash: "New York City skyline"
-    },
-    { rank: 4,  city: "San Diego",       state: "CA", total: 38.29, food: 8.26, drink: 8.27, other: 21.44, util: 0.32,
-      imgFiles: [
-        "San Diego skyline.jpg",
-        "San Diego Skyline (8350201324).jpg"
-      ],
-      unsplash: "San Diego skyline"
-    },
-    { rank: 5,  city: "Long Beach",      state: "CA", total: 38.60, food: 8.41, drink: 8.44, other: 21.44, util: 0.32,
-      imgFiles: [
-        "Long Beach skyline.jpg",
-        "Long-Beach-skyline-at-dusk (21611595655).jpg"
-      ],
-      unsplash: "Long Beach California skyline"
-    },
-    { rank: 6,  city: "San Jose",        state: "CA", total: 38.80, food: 8.15, drink: 8.90, other: 21.44, util: 0.32,
-      imgFiles: [
-        "San Jose skyline.jpg",
-        "San Jose skyline 8382.jpg"
-      ],
-      unsplash: "San Jose skyline"
-    },
-    { rank: 7,  city: "Los Angeles",     state: "CA", total: 38.81, food: 8.70, drink: 8.36, other: 21.44, util: 0.32,
-      imgFiles: [
-        "Los Angeles Skyline 08-2024.jpg",
-        "Bunker Hill Downtown Los Angeles.jpg"
-      ],
-      unsplash: "Los Angeles skyline"
-    },
-    { rank: 8,  city: "San Francisco",   state: "CA", total: 38.92, food: 8.72, drink: 8.45, other: 21.44, util: 0.32,
+    { rank: 3,  city: "San Francisco",   state: "CA", total: 38.92, food: 8.72, drink: 8.45, other: 21.44, util: 0.32,
       imgFiles: [
         "San Francisco skyline at blue hour.jpg",
         "San Francisco skyline.jpg",
@@ -743,19 +708,54 @@
       ],
       unsplash: "San Francisco skyline"
     },
-    { rank: 9,  city: "Sacramento",      state: "CA", total: 38.97, food: 9.04, drink: 8.17, other: 21.44, util: 0.32,
+    { rank: 4,  city: "Los Angeles",     state: "CA", total: 38.81, food: 8.70, drink: 8.36, other: 21.44, util: 0.32,
       imgFiles: [
-        "Sacramento, California skyline.jpg",
-        "Sacramento skyline.jpg"
+        "Los Angeles Skyline 08-2024.jpg",
+        "Bunker Hill Downtown Los Angeles.jpg"
       ],
-      unsplash: "Sacramento skyline"
+      unsplash: "Los Angeles skyline"
     },
-    { rank: 10, city: "Seattle",         state: "WA", total: 39.15, food: 9.91, drink: 8.39, other: 20.71, util: 0.14,
+    { rank: 5,  city: "San Jose",        state: "CA", total: 38.80, food: 8.15, drink: 8.90, other: 21.44, util: 0.32,
       imgFiles: [
-        "Seattle skyline 2021.jpg",
-        "Seattle skyline.jpg"
+        "San Jose skyline.jpg",
+        "San Jose skyline 8382.jpg"
       ],
-      unsplash: "Seattle skyline"
+      unsplash: "San Jose skyline"
+    },
+    { rank: 6,  city: "Long Beach",      state: "CA", total: 38.60, food: 8.41, drink: 8.44, other: 21.44, util: 0.32,
+      imgFiles: [
+        "Long Beach skyline.jpg",
+        "Long-Beach-skyline-at-dusk (21611595655).jpg"
+      ],
+      unsplash: "Long Beach California skyline"
+    },
+    { rank: 7,  city: "San Diego",       state: "CA", total: 38.29, food: 8.26, drink: 8.27, other: 21.44, util: 0.32,
+      imgFiles: [
+        "San Diego skyline.jpg",
+        "San Diego Skyline (8350201324).jpg"
+      ],
+      unsplash: "San Diego skyline"
+    },
+    { rank: 8,  city: "New York City",   state: "NY", total: 37.65, food: 9.93, drink: 8.27, other: 19.18, util: 0.27,
+      imgFiles: [
+        "Skyline-New-York-City.jpg",
+        "Manhattan skyline.jpg"
+      ],
+      unsplash: "New York City skyline"
+    },
+    { rank: 9,  city: "Miami",           state: "FL", total: 37.64, food: 8.28, drink: 8.52, other: 20.68, util: 0.16,
+      imgFiles: [
+        "Miami, Florida skyline.jpg",
+        "Miami skyline.jpg"
+      ],
+      unsplash: "Miami skyline"
+    },
+    { rank: 10, city: "Washington D.C.", state: "DC", total: 36.58, food: 9.45, drink: 8.56, other: 18.34, util: 0.24,
+      imgFiles: [
+        "Washington DC Panorama.jpg",
+        "Washington Monument and skyline.jpg"
+      ],
+      unsplash: "Washington DC skyline"
     },
   ];
 
